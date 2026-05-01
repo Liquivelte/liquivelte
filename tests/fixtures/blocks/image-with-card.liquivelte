@@ -1,0 +1,15 @@
+<script>
+  export let block;
+  export let forloop;
+</script>
+
+<article class="image-with-card" data-index="{{- forloop.index -}}">
+  {% if forloop.first %}
+    <strong>First block</strong>
+  {% endif %}
+
+  <img src="{{- block.settings.image -}}" alt="{{- block.settings.alt -}}" />
+  <h2>{{- block.settings.title -}}</h2>
+  <slot name="eyebrow" />
+  <slot />
+</article>

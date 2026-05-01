@@ -1,0 +1,59 @@
+<script>
+  export let heading = section.settings.heading;
+  export let subheading = section.settings.subheading;
+</script>
+
+<section class="hero-section">
+  <div class="hero-section__content">
+    <h1 class="hero-section__heading">{{- heading -}}</h1>
+    <p class="hero-section__subheading">{{- subheading -}}</p>
+    
+    {% for product in collections.frontpage.products limit: 4 %}
+      <div class="hero-section__product">
+        <h2 class="hero-section__product-title">{{- product.title -}} </h2>
+        <p class="hero-section__product-price">{{- product.price | money -}}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero section",
+  "tag": "section",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our latest products"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero section",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

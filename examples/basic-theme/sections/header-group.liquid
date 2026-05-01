@@ -1,0 +1,31 @@
+<header> 
+  <h1> Header </h1>
+  </header>
+{% schema %}
+{
+  "name": "Header group",
+  "tag": "section",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo",
+      "label": "Logo text",
+      "default": "Store"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "navigation",
+      "name": "Navigation",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

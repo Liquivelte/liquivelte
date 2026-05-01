@@ -1,0 +1,47 @@
+<script>
+  export let collection = collections.featured;
+  export let products_per_row = 4;
+</script>
+
+<section class="featured-collection">
+  <h2 class="featured-collection__title">{{- collection.title -}}</h2>
+  
+  <div class="featured-collection__grid">
+    {% for product in collection.products limit: section.settings.products_to_show %}
+      <div class="featured-collection__product">
+        <h3 class="featured-collection__product-title">{{- product.title -}}</h3>
+        <p class="featured-collection__product-price">{{- product.price | money -}}</p>
+        <a href="{{- product.url -}}" class="featured-collection__product-link">View product</a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

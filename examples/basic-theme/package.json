@@ -1,0 +1,16 @@
+{
+  "name": "liquivelte-basic-theme",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "run-p build:watch shopify:dev",
+    "build:watch": "vite build --watch",
+    "build": "vite build",
+    "preview": "vite preview",
+    "shopify:dev": "shopify theme dev --path=dist"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "vite": "^5.0.0"
+  }
+}
