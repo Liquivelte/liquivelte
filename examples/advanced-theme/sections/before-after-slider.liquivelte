@@ -1,0 +1,76 @@
+<script>
+  import BeforeAfterSlider from '$components/BeforeAfterSlider.svelte';
+  
+  export let before_image = section.settings.before_image;
+  export let after_image = section.settings.after_image;
+  export let label_before = section.settings.label_before;
+  export let label_after = section.settings.label_after;
+</script>
+
+<section class="before-after-slider py-12">
+  <div class="before-after-slider__container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- No-JS fallback: Stacked images -->
+    <noscript>
+      <div class="before-after-slider__fallback space-y-4">
+        <div>
+          <h3>{{- label_before -}}</h3>
+          {% if before_image %}
+            {% render 'responsive-image', image: before_image, width: 800, height: 600 %}
+          {% endif %}
+        </div>
+        <div>
+          <h3>{{- label_after -}}</h3>
+          {% if after_image %}
+            {% render 'responsive-image', image: after_image, width: 800, height: 600 %}
+          {% endif %}
+        </div>
+      </div>
+    </noscript>
+    
+    <!-- JS-enhanced: BeforeAfterSlider component -->
+    <BeforeAfterSlider 
+      beforeImage={before_image} 
+      afterImage={after_image}
+      labelBefore={label_before}
+      labelAfter={label_after}
+    />
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Before/after slider",
+  "tag": "section",
+  "class": "section-before-after-slider",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image"
+    },
+    {
+      "type": "text",
+      "id": "label_before",
+      "label": "Before label",
+      "default": "Before"
+    },
+    {
+      "type": "text",
+      "id": "label_after",
+      "label": "After label",
+      "default": "After"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before/after slider"
+    }
+  ]
+}
+{% endschema %}

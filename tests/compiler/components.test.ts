@@ -51,4 +51,22 @@ describe('component import compilation', () => {
       expect.objectContaining({ name: 'eyebrow', content: expect.stringContaining('block.settings.eyebrow') })
     ]));
   });
+
+  it('preserves {% render %} tag arguments in Liquid output', async () => {
+    const { compileLiquivelte } = await loadCompilerModule();
+    const renderOptions = {
+      filename: 'tests/fixtures/render-tag.liquivelte',
+      componentName: 'RenderTag',
+      mode: 'test',
+      svelteVersionTarget: 5,
+      trace: { enabled: false, format: 'json-script' },
+      themeImportsMode: 'props'
+    } as const;
+    const result = compileLiquivelte(await readFixture('render-tag.liquivelte'), renderOptions);
+
+    // The render tag should preserve all its arguments
+    expect(result.liquidCode).toContain("{% render 'responsive-image', image: product.featured_image, width: 400, height: 400 %}");
+    // Should not be empty
+    expect(result.liquidCode).not.toMatch(/\{%\s*render\s+['"]responsive-image['"]\s*%\}/);
+  });
 });

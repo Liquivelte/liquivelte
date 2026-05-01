@@ -1,0 +1,52 @@
+{%- comment -%}
+  Product Form Fallback Snippet
+  Renders a standard Shopify add-to-cart form for no-JS fallback.
+  This is pure Liquid Shopify form - no Svelte hydration needed.
+
+  Parameters:
+  - product: Product object
+  - show_quantity: Show quantity selector (default: true)
+  - button_class: CSS classes for add-to-cart button
+{%- endcomment -%}
+
+{%- liquid
+  assign show_quantity = show_quantity | default: true
+  assign button_class = button_class | default: 'btn btn--primary'
+-%}
+
+{% form 'product', product %}
+  {% if show_quantity %}
+    <label for="quantity-{{- product.id -}}">Quantity</label>
+    <input 
+      type="number" 
+      name="quantity" 
+      id="quantity-{{- product.id -}}" 
+      value="1" 
+      min="1"
+      class="quantity-input"
+    >
+  {% else %}
+    <input type="hidden" name="quantity" value="1">
+  {% endif %}
+
+  {% if product.available %}
+    <button 
+      type="submit" 
+      name="add" 
+      class="{{- button_class -}}"
+      {% unless product.variants.size == 1 %}
+        disabled
+      {% endunless %}
+    >
+      {% if product.variants.size == 1 %}
+        Add to cart
+      {% else %}
+        Select options
+      {% endif %}
+    </button>
+  {% else %}
+    <button type="button" class="{{- button_class -}} {{- button_class -}}--disabled" disabled>
+      Sold out
+    </button>
+  {% endif %}
+{% endform %}

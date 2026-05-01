@@ -19,6 +19,7 @@ export interface LiquidTagToken extends Token {
   name: string;
   item?: string;
   source?: string;
+  args?: string;
   trimLeft?: boolean;
   trimRight?: boolean;
 }
@@ -102,6 +103,11 @@ export function tokenize(source: string, options?: TokenizeOptions): Token[] {
         trimLeft: open.includes('-'),
         trimRight: close.includes('-')
       };
+
+      // Store raw args for all tags (needed for render, assign, etc.)
+      if (args) {
+        tagToken.args = args.trim();
+      }
 
       // Parse for tag
       if (name === 'for' && args) {

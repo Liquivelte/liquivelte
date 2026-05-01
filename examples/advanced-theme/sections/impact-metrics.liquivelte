@@ -1,0 +1,83 @@
+<script>
+  import ImpactChart from '$components/ImpactChart.svelte';
+  
+  export let title = section.settings.title;
+  export let metrics = section.blocks;
+</script>
+
+<section class="impact-metrics py-12">
+  <div class="impact-metrics__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="impact-metrics__title text-3xl font-bold text-center mb-8">{{- section.settings.title -}}</h2>
+    
+    <!-- No-JS fallback: Static values -->
+    <noscript>
+      <div class="impact-metrics__fallback grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for block in section.blocks %}
+          <div class="impact-metrics__metric text-center p-6 bg-gray-50 rounded-lg">
+            <div class="impact-metrics__value text-4xl font-bold text-primary-600 mb-2">
+              {{- block.settings.value -}}
+            </div>
+            <div class="impact-metrics__label text-gray-600">
+              {{- block.settings.label -}}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </noscript>
+    
+    <!-- JS-enhanced: ImpactChart component with animated counters -->
+    <ImpactChart metrics={metrics} />
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Impact metrics",
+  "tag": "section",
+  "class": "section-impact-metrics",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Impact"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "metric",
+      "name": "Metric",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "100"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Customers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Impact metrics",
+      "blocks": [
+        {
+          "type": "metric"
+        },
+        {
+          "type": "metric"
+        },
+        {
+          "type": "metric"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

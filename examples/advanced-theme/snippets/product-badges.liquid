@@ -1,0 +1,44 @@
+{%- comment -%}
+  Product Badges Snippet
+  Renders product status badges (Sale, New, Sold Out).
+  All badges are Liquid-rendered for SSR.
+
+  Parameters:
+  - product: Product object
+  - show_sale: Show sale badge (default: true)
+  - show_new: Show new badge (default: true)
+  - show_sold_out: Show sold out badge (default: true)
+  - badge_class: CSS classes for badges
+{%- endcomment -%}
+
+{%- liquid
+  assign show_sale = show_sale | default: true
+  assign show_new = show_new | default: true
+  assign show_sold_out = show_sold_out | default: true
+  assign badge_class = badge_class | default: 'product-badge'
+
+  assign on_sale = false
+  if product.compare_at_price and product.compare_at_price != blank
+    if product.compare_at_price > product.price
+      assign on_sale = true
+    endif
+  endif
+  
+  assign is_new = false
+  if product.tags contains 'new'
+    assign is_new = true
+  endif
+  
+  assign is_sold_out = false
+  if product.available == false
+    assign is_sold_out = true
+  endif
+-%}
+
+{%- if show_sold_out and is_sold_out -%}
+  <span class="{{- badge_class -}} {{- badge_class -}}--sold-out">Sold Out</span>
+{%- elsif show_sale and on_sale -%}
+  <span class="{{- badge_class -}} {{- badge_class -}}--sale">Sale</span>
+{%- elsif show_new and is_new -%}
+  <span class="{{- badge_class -}} {{- badge_class -}}--new">New</span>
+{%- endif -%}

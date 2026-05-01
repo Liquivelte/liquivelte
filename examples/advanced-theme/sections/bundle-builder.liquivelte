@@ -1,0 +1,52 @@
+<script>
+  import BundleBuilder from '$components/BundleBuilder.svelte';
+  
+  export let title = section.settings.title;
+  export let products = section.settings.products;
+</script>
+
+<section class="bundle-builder py-12">
+  <div class="bundle-builder__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="bundle-builder__title text-3xl font-bold text-center mb-8">{{- section.settings.title -}}</h2>
+    
+    <!-- No-JS fallback: Static product list -->
+    <noscript>
+      <div class="bundle-builder__fallback grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for product in section.settings.products limit: 3 %}
+          <div class="bundle-builder__product">
+            {% render 'product-card', product: product %}
+          </div>
+        {% endfor %}
+      </div>
+    </noscript>
+    
+    <!-- JS-enhanced: BundleBuilder component -->
+    <BundleBuilder products={products} />
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "tag": "section",
+  "class": "section-bundle-builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Build Your Bundle"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle builder"
+    }
+  ]
+}
+{% endschema %}

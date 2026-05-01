@@ -269,6 +269,9 @@ export function compileLiquivelte(source: string, options: CompileOptions): Comp
         liquidCode += ` ${tag.item} in ${tag.source}`;
       } else if (tag.source) {
         liquidCode += ` ${tag.source}`;
+      } else if (tag.args) {
+        // For render, assign, and other tags with arguments
+        liquidCode += ` ${tag.args}`;
       }
       liquidCode += ' %}';
     } else if (token.type === 'LiquidOutput') {

@@ -1,0 +1,77 @@
+<script>
+  import ComparisonTabs from '$components/ComparisonTabs.svelte';
+  
+  export let title = section.settings.title;
+  export let tabs = section.blocks;
+</script>
+
+<section class="comparison-tabs py-12">
+  <div class="comparison-tabs__container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="comparison-tabs__title text-3xl font-bold text-center mb-8">{{- title -}}</h2>
+    
+    <!-- No-JS fallback: All content visible -->
+    <noscript>
+      <div class="comparison-tabs__fallback space-y-8">
+        {% for block in section.blocks %}
+          <div class="comparison-tabs__tab-content">
+            <h3 class="comparison-tabs__tab-title text-2xl font-semibold mb-4">{{- block.settings.title -}}</h3>
+            <div class="comparison-tabs__tab-body">{{- block.settings.content -}}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </noscript>
+    
+    <!-- JS-enhanced: ComparisonTabs component -->
+    <ComparisonTabs tabs={tabs} />
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comparison tabs",
+  "tag": "section",
+  "class": "section-comparison-tabs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Compare Features"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison tabs",
+      "blocks": [
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

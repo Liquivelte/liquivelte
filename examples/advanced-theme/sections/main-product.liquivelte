@@ -1,0 +1,143 @@
+<script>
+  import MediaGallery from '$components/MediaGallery.svelte';
+  import VariantPicker from '$components/VariantPicker.svelte';
+  import CartDrawer from '$components/CartDrawer.svelte';
+  import { addToCart, openCartDrawer } from '$stores/cart';
+  
+  export let product;
+  let selectedVariant = product.selected_or_first_available_variant;
+  
+  async function handleAddToCart() {
+    if (selectedVariant && selectedVariant.available) {
+      await addToCart(selectedVariant.id, 1);
+      openCartDrawer();
+    }
+  }
+</script>
+
+<section class="product-page py-12">
+  <div class="product-page__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="product-page__grid grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Product Images (SSR: Liquid, enhanced with MediaGallery component) -->
+      <div class="product-page__images">
+        <noscript>
+          {% if product.featured_media %}
+            <div class="product-page__main-image mb-4">
+              {% render 'responsive-image', 
+                image: product.featured_media, 
+                width: 800, 
+                height: 800,
+                class: 'w-full rounded-lg shadow-lg'
+              %}
+            </div>
+          {% endif %}
+          
+          {% if product.media.size > 1 %}
+            <div class="product-page__thumbnails grid grid-cols-4 gap-4">
+              {% for media in product.media limit: 4 %}
+                {% render 'responsive-image',
+                  image: media,
+                  width: 200,
+                  height: 200,
+                  class: 'product-page__thumbnail cursor-pointer rounded border-2 border-transparent hover:border-primary-500 transition-colors'
+                %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </noscript>
+        
+        <!-- JS-enhanced: MediaGallery component -->
+        <MediaGallery 
+          media={product.media}
+          featuredMedia={product.featured_media}
+        />
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-page__info">
+        <h1 class="product-page__title text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          {{- product.title -}}
+        </h1>
+
+        <div class="product-page__price mb-6">
+          {% render 'price', product: product %}
+        </div>
+
+        <div class="product-page__description prose prose-sm text-gray-600 mb-6">
+          {{- product.description -}}
+        </div>
+
+        {% if product.available %}
+          <!-- No-JS fallback: Shopify form -->
+          <noscript>
+            <div class="product-page__add-to-cart">
+              {% render 'product-form-fallback', product: product %}
+            </div>
+          </noscript>
+          
+          <!-- JS-enhanced: Variant picker and AJAX add-to-cart -->
+          <div class="product-page__add-to-cart js-enabled">
+            {% if product.variants.size > 1 %}
+              <VariantPicker product={product} variant={selectedVariant} />
+            {% endif %}
+
+            <div class="product-page__quantity flex items-center space-x-4 mb-4">
+              <label class="text-sm font-medium text-gray-700">Quantity</label>
+              <input type="number" value="1" min="1" class="w-20 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+            </div>
+
+            <button
+              type="submit"
+              class="product-page__btn w-full px-6 py-3 bg-primary-600 text-white font-semibold rounded-md hover:bg-primary-700 transition-colors"
+            >
+              Add to Cart
+            </button>
+          </div>
+        {% else %}
+          <div class="product-page__sold-out">
+            <p class="text-red-600 font-semibold">Sold Out</p>
+          </div>
+        {% endif %}
+        
+        {% render 'json-product-card', product: product %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<CartDrawer />
+
+<style>
+  .js-enabled {
+    display: none;
+  }
+  
+  @supports (display: grid) {
+    .js-enabled {
+      display: block;
+    }
+    
+    noscript + .js-enabled {
+      display: block;
+    }
+  }
+  
+  noscript {
+    display: block;
+  }
+  
+  @supports (display: grid) {
+    noscript {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Main product",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": []
+}
+{% endschema %}

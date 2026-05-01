@@ -1,0 +1,15 @@
+{
+  "accessibility": {
+    "skip_to_text": "Skip to content"
+  },
+  "general": {
+    "close": "Close",
+    "search": "Search"
+  },
+  "sections": {
+    "hero": {
+      "heading": "Welcome",
+      "subheading": "Shop the latest collection"
+    }
+  }
+}

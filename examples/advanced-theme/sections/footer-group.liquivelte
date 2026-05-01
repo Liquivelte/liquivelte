@@ -1,0 +1,72 @@
+<script>
+  export let copyright = section.settings.copyright;
+</script>
+
+<footer class="footer bg-gray-900 text-white">
+  <div class="footer__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="footer__grid grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- About -->
+      <div class="footer__about">
+        <h3 class="footer__heading text-lg font-semibold mb-4">About Us</h3>
+        <p class="footer__text text-gray-400 text-sm">
+          We're passionate about providing quality products and exceptional service to our customers.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer__links">
+        <h3 class="footer__heading text-lg font-semibold mb-4">Quick Links</h3>
+        <ul class="footer__list space-y-2">
+          <li><a href="/" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Home</a></li>
+          <li><a href="/collections/all" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Shop</a></li>
+          <li><a href="/pages/about" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">About</a></li>
+          <li><a href="/pages/contact" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="footer__service">
+        <h3 class="footer__heading text-lg font-semibold mb-4">Customer Service</h3>
+        <ul class="footer__list space-y-2">
+          <li><a href="/pages/shipping" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Shipping</a></li>
+          <li><a href="/pages/returns" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Returns</a></li>
+          <li><a href="/pages/faq" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">FAQ</a></li>
+          <li><a href="/pages/privacy" class="footer__link text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <h3 class="footer__heading text-lg font-semibold mb-4">Newsletter</h3>
+        <p class="footer__text text-gray-400 text-sm mb-4">Subscribe to get special offers and updates.</p>
+        <form class="footer__form flex">
+          <input type="email" placeholder="Enter your email" class="footer__input flex-1 px-4 py-2 rounded-l-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500">
+          <button type="submit" class="footer__btn px-4 py-2 bg-primary-600 text-white rounded-r-md hover:bg-primary-700 transition-colors">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer__bottom border-t border-gray-800 mt-8 pt-8 text-center">
+      <p class="footer__copyright text-gray-400 text-sm">{{- copyright -}}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer group",
+  "tag": "section",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright text",
+      "default": "© 2024 Store. All rights reserved."
+    }
+  ]
+}
+{% endschema %}

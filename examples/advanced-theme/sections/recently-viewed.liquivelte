@@ -1,0 +1,37 @@
+<script>
+  import { recentlyViewed } from '$stores/recentlyViewed';
+  
+  $: products = recentlyViewed.get();
+</script>
+
+<section class="recently-viewed py-12">
+  <div class="recently-viewed__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="recently-viewed__title text-3xl font-bold text-center mb-8">Recently Viewed</h2>
+    
+    {#if products && products.length > 0}
+      <div class="recently-viewed__grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {#each products as product}
+          <div class="recently-viewed__product">
+            {% render 'product-card', product: product %}
+          </div>
+        {/each}
+      </div>
+    {:else}
+      <p class="recently-viewed__empty text-center text-gray-500">No recently viewed products</p>
+    {/if}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recently viewed",
+  "tag": "section",
+  "class": "section-recently-viewed",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Recently viewed"
+    }
+  ]
+}
+{% endschema %}

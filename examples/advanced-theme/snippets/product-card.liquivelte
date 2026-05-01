@@ -1,0 +1,32 @@
+<div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+  <div class="product-card__image relative">
+    {% if product.featured_image %}
+      {% render 'responsive-image',
+        image: product.featured_image,
+        width: 400,
+        height: 400,
+        class: 'w-full h-64 object-cover'
+      %}
+    {% else %}
+      <div class="product-card__placeholder flex items-center justify-center h-64 bg-gray-200">No image</div>
+    {% endif %}
+
+    {% render 'product-badges', product: product %}
+  </div>
+  
+  <div class="product-card__info p-4">
+    <h3 class="product-card__title text-lg font-semibold mb-2">
+      <a href="{{- product.url -}}" class="hover:underline">{{- product.title -}}</a>
+    </h3>
+    
+    <div class="product-card__price mb-4">
+      {% render 'price', product: product %}
+    </div>
+    
+    {% if product.available %}
+      <a href="{{- product.url -}}" class="product-card__link btn w-full">View product</a>
+    {% else %}
+      <span class="product-card__sold-out inline-block w-full text-center py-3 bg-gray-300 text-gray-600 rounded-md">Sold out</span>
+    {% endif %}
+  </div>
+</div>

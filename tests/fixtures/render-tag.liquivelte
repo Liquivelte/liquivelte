@@ -1,0 +1,13 @@
+<script>
+</script>
+
+<div>
+  {% render 'responsive-image', image: product.featured_image, width: 400, height: 400 %}
+</div>
+
+{% schema %}
+{
+  "name": "Render tag test",
+  "tag": "section"
+}
+{% endschema %}

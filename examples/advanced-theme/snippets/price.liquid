@@ -1,0 +1,30 @@
+{%- comment -%}
+  Price Snippet
+  Renders product price with comparison price and sale indicator.
+  All prices are Liquid-rendered for SSR.
+
+  Parameters:
+  - product: Product object
+  - show_compare: Show comparison price if on sale (default: true)
+  - price_class: CSS classes for price
+  - compare_class: CSS classes for compare price
+{%- endcomment -%}
+
+{%- liquid
+  assign show_compare = show_compare | default: true
+  assign price_class = price_class | default: 'price'
+  assign compare_class = compare_class | default: 'price--compare'
+  
+  assign price = product.price | money
+  assign compare_price = product.compare_at_price | money
+-%}
+
+<span class="{{- price_class -}}">
+  {{- price -}}
+</span>
+
+{%- if show_compare and product.compare_at_price > product.price -%}
+  <span class="{{- compare_class -}}">
+    {{- compare_price -}}
+  </span>
+{%- endif -%}

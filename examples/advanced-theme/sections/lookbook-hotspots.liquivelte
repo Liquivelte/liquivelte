@@ -1,0 +1,74 @@
+<script>
+  import LookbookHotspots from '$components/LookbookHotspots.svelte';
+  
+  export let image = section.settings.image;
+  export let hotspots = section.blocks;
+</script>
+
+<section class="lookbook-hotspots py-12">
+  <div class="lookbook-hotspots__container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- No-JS fallback: Static product list -->
+    <noscript>
+      <div class="lookbook-hotspots__fallback grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for block in section.blocks limit: 3 %}
+          <div class="lookbook-hotspots__product">
+            {% render 'product-card', product: block.settings.product %}
+          </div>
+        {% endfor %}
+      </div>
+    </noscript>
+    
+    <!-- JS-enhanced: LookbookHotspots component -->
+    <LookbookHotspots image={image} hotspots={hotspots} />
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook hotspots",
+  "tag": "section",
+  "class": "section-lookbook-hotspots",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Lookbook image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "x_position",
+          "min": 0,
+          "max": 100,
+          "label": "X position (%)",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "y_position",
+          "min": 0,
+          "max": 100,
+          "label": "Y position (%)",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook hotspots"
+    }
+  ]
+}
+{% endschema %}

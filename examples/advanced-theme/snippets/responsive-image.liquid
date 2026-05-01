@@ -1,0 +1,47 @@
+{%- comment -%}
+  Responsive Image Snippet
+  Renders an image with proper srcset and sizes for responsive loading.
+  Reserves dimensions to prevent layout shift.
+
+  Parameters:
+  - image: Image object
+  - width: Base width (default: 400)
+  - height: Base height (default: 400)
+  - sizes: sizes attribute (default: 100vw)
+  - class: CSS classes
+  - alt: Alt text (falls back to image.alt)
+  - loading: loading attribute (lazy or eager)
+{%- endcomment -%}
+
+{%- liquid
+  assign image_width = width | default: 400
+  assign image_height = height | default: 400
+  assign image_sizes = sizes | default: '100vw'
+  assign image_class = class | default: ''
+  assign image_alt = alt | default: image.alt
+  assign image_loading = loading | default: 'lazy'
+
+  # Generate srcset with multiple widths
+  assign widths = '200,400,600,800,1000,1200' | split: ','
+  assign srcset = ''
+
+  for w in widths
+    assign w_num = w | times: 1
+    assign image_url = image | image_url: width: w_num
+    if srcset != blank
+      assign srcset = srcset | append: ', '
+    endif
+    assign srcset = srcset | append: image_url | append: ' ' | append: w | append: 'w'
+  endfor
+-%}
+
+<img
+  src="{{- image | image_url: width: image_width -}}"
+  srcset="{{- srcset -}}"
+  sizes="{{- image_sizes -}}"
+  alt="{{- image_alt -}}"
+  loading="{{- image_loading -}}"
+  width="{{- image_width -}}"
+  height="{{- image_height -}}"
+  class="{{- image_class -}}"
+>
