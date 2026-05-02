@@ -1,4 +1,4 @@
-import { compileLiquivelte, CompileOptions } from '../compiler/compileLiquivelte';
+import { compileLiquivelte, CompileOptions } from '../compiler/compileLiquivelte.js';
 import { readFileSync, readdirSync, existsSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 

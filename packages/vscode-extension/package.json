@@ -1,0 +1,81 @@
+{
+  "name": "liquivelte-vscode",
+  "displayName": "Liquivelte",
+  "description": "Liquivelte v4 - Shopify Liquid SSR with Svelte hydration",
+  "version": "4.0.0",
+  "publisher": "malipetek",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "type": "module",
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "liquivelte",
+        "aliases": [
+          "Liquivelte",
+          "liquivelte"
+        ],
+        "extensions": [
+          ".liquivelte"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "liquivelte",
+        "scopeName": "source.liquivelte",
+        "path": "./syntaxes/liquivelte.tmLanguage.json",
+        "embeddedLanguages": {
+          "text.html.basic": "html",
+          "source.liquid": "liquid",
+          "source.css": "css",
+          "source.css.scss": "scss",
+          "source.css.less": "less",
+          "source.js": "javascript",
+          "source.ts": "typescript",
+          "source.coffee": "coffeescript"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "liquivelte.showCompiledLiquid",
+        "title": "Liquivelte: Show Compiled Liquid"
+      },
+      {
+        "command": "liquivelte.showCompiledSvelte",
+        "title": "Liquivelte: Show Compiled Svelte"
+      },
+      {
+        "command": "liquivelte.showTracePlan",
+        "title": "Liquivelte: Show Trace Plan"
+      },
+      {
+        "command": "liquivelte.restartLanguageServer",
+        "title": "Liquivelte: Restart Language Server"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build:grammar": "npx js-yaml syntaxes/liquivelte.tmLanguage.src.yaml > syntaxes/liquivelte.tmLanguage.json"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "js-yaml": "^4.1.1",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.0.0",
+    "liquivelte-v4": "file:../.."
+  }
+}

@@ -1,4 +1,4 @@
-import { Token } from './tokenize';
+import { Token } from './tokenize.js';
 
 export interface ParseOptions {
   componentNames?: string[];

@@ -1,5 +1,5 @@
-import { Document } from './parseDocument';
-import { Token, LiquidTagToken, ComponentTagToken } from './tokenize';
+import { Document } from './parseDocument.js';
+import { Token, LiquidTagToken, ComponentTagToken } from './tokenize.js';
 
 let frameIdCounter = 0;
 

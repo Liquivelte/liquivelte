@@ -6,3 +6,4 @@ export { compileLiquidExpression } from './compiler/expressions.js';
 export { createForloop } from './runtime/forloop.js';
 export { createTraceStore } from './runtime/trace.js';
 export { liquivelteVitePlugin } from './vite/plugin.js';
+//# sourceMappingURL=index.js.map

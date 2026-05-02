@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./vite": "./src/vite/plugin.ts",
-    "./compiler/*": "./src/compiler/*.ts",
-    "./runtime/*": "./src/runtime/*.ts"
+    ".": "./src/index.js",
+    "./vite": "./src/vite/plugin.js",
+    "./compiler/compileLiquivelte": "./src/compiler/compileLiquivelte.js",
+    "./runtime/*": "./src/runtime/*.js"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:update": "vitest run --update",

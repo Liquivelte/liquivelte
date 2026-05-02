@@ -1,7 +1,7 @@
-import { tokenize } from './tokenize';
-import { parseDocument } from './parseDocument';
-import { buildScopeModel } from './scope';
-import { compileLiquidExpression } from './expressions';
+import { tokenize } from './tokenize.js';
+import { parseDocument } from './parseDocument.js';
+import { buildScopeModel } from './scope.js';
+import { compileLiquidExpression } from './expressions.js';
 
 export interface CompileOptions {
   filename: string;
@@ -28,6 +28,16 @@ export interface CompileResult {
   };
   diagnostics: any[];
   map?: unknown;
+}
+
+function compileComponentPropAttribute(propName: string, propValue: string): string {
+  const liquidOutputMatch = propValue.match(/^\s*\{\{-?\s*([\s\S]*?)\s*-?\}\}\s*$/);
+
+  if (liquidOutputMatch) {
+    return ` ${propName}={${liquidOutputMatch[1].trim()}}`;
+  }
+
+  return ` ${propName}={${JSON.stringify(propValue)}}`;
 }
 
 export function compileLiquivelte(source: string, options: CompileOptions): CompileResult {
@@ -217,8 +227,7 @@ export function compileLiquivelte(source: string, options: CompileOptions): Comp
       // Generate Svelte component tag
       svelteCode += `<${component.name}`;
       for (const [propName, propValue] of Object.entries(component.props)) {
-        const expr = (propValue as string).replace(/^\{\{-?\s*/, '').replace(/\s*-?\}\}$/, '');
-        svelteCode += ` ${propName}={${expr}}`;
+        svelteCode += compileComponentPropAttribute(propName, propValue as string);
       }
       
       if (component.selfClosing) {

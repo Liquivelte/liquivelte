@@ -32,6 +32,17 @@ describe('component import compilation', () => {
     expect(result.svelteCode).toMatch(/forloop=\{.*forloop.*\}/s);
   });
 
+  it('keeps static component prop values as string literals in Svelte output', async () => {
+    const { compileLiquivelte } = await loadCompilerModule();
+    const source = `<script>import ImageWithCard from './blocks/image-with-card.liquivelte';</script><ImageWithCard title="My Title" variant="featured" block="{{- block -}}" />`;
+    const result = compileLiquivelte(source, options);
+
+    expect(result.svelteCode).toContain('title={"My Title"}');
+    expect(result.svelteCode).toContain('variant={"featured"}');
+    expect(result.svelteCode).toContain('block={block}');
+    expect(result.svelteCode).not.toContain('title={My Title}');
+  });
+
   it('emits a Liquid render boundary for SSR component instances', async () => {
     const { compileLiquivelte } = await loadCompilerModule();
     const result = compileLiquivelte(await readFixture('slider-general.liquivelte'), options);
